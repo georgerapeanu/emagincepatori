@@ -1,0 +1,34 @@
++descriere matrice
++malloc
++explicare adresare maybe(aparent matricea e un sir de pointeri spre vectori, si apoi ei contin elementele efective) ===NOPE===
++alocare globala vs locala(si memoria utilizata) ====NOPE====
++smenu lui mars 1d
++semnu lui mars 2d
+====fill time====
++cel mai mare patrat de 1 din matrice
++kadanne 1d
++kadanne 2d
++probleme n^3 cu matrici
++cel mai mare dreptunghi din matrice
++stive
+================
++probleme
+
+https://www.pbinfo.ro/probleme/1749/zona4(matrice basic)
+https://www.pbinfo.ro/probleme/767/sumapare2(matrice basic)
+https://www.pbinfo.ro/probleme/3646/zoom-poza(matrice basic construiere si fara)
+
+https://www.pbinfo.ro/probleme/2359/cifre13(matrice basic dar mai avansata)
+
+https://www.pbinfo.ro/probleme/1512/mars (mars1d)
+https://www.pbinfo.ro/probleme/764/cirese (suma pe prefix2d)
+https://www.pbinfo.ro/probleme/3903/diff2darrays (mars2d)
+https://www.infoarena.ro/problema/maxsubsum(matrici dar mai cu smen)
+
+https://www.pbinfo.ro/probleme/3376/asciimat (mars2d + patrat maxim)
+
+https://www.pbinfo.ro/probleme/1267/plaja (cel mai mare dreptunghi)
+https://www.pbinfo.ro/probleme/2728/skyline(stive)
+https://www.infoarena.ro/problema/ssm (kadane 1d)
+https://www.pbinfo.ro/probleme/3410/submatrixsummax(kadane 2d)
+https://infoarena.ro/problema/rama   (n^3 cu matrici)
