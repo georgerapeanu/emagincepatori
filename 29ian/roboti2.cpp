@@ -1,3 +1,40 @@
+/* Solutia e un pic diferita de cea explicata la ora
+  Mai exact, in loc sa punem la inceput maximu si dupa tot in jurul lui, punem minimul si punem crescator in jurul lui
+  Ca si suma, solutia e la fel de buna.
+  Acum in caz de egaliate, punem in dreapta orice valoare in plus. Este valid asa, deoarece pastram tot timpul in dreapta sirul "mai bun"
+
+  Ca si completare, de obicei la chestiile legate de minim lexicografic, generezi de la stanga la dreapta, pentru ca atunci daca stii ca pe o pozitie pui minimul posibil stii ca e optim.
+
+  O observatie importanta e ca sa pui tot timpul minimul posibil la stanga nu e tot timpul echivalent cu a pune tot timpul maximul posibile la dreapta
+
+  Un exemplu pe alta problema, unde se vede mai clar, e urmatorul:
+
+  Sa zicem ca avem o matrice de nxm cu valori de 0/1. Care e traseul minim lexicografic care trece doar prin 0-uri si o ia doar in jos sau in dreapta, si incepe din (1,1) si se termina in (n, n)
+  (o celula (a,b) e considerata mai mica decat o celula(c,d) daca si numai daca a < c sau (a=c si b < d)).
+  o ia doar in jos sau in dreapta, adica pentru oricare 2 celule consecutive (a,b) si (c,d), fie c = a + 1 si d = b, fie c = a si d = b + 1
+  
+  Sa zicem ca avem matricea asta
+  0000
+  0000
+  0000
+  0000
+
+  pe matricea asta, daca punem tot timpul minimul posibil pe pozitia actuala, traseul ar fi
+  (1,1) (1,2) (1,3) (1,4) (2,4) (3,4) (4,4)
+  dar daca am lua de la sfarsit si am pune tot timpul maximul, ea ar fi:
+  (1, 1), (2, 1), (3, 1), (4, 1), (4, 2), (4, 3), (4, 4)
+
+  Acum daca tot v-am zis problema asta, va voi zice si cum sa o rezolvati:
+  puteti defini un dp[i][j] = true daca din (i, j) poti ajunge in (n, m), false altfel
+  Initial, peste tot unde v[i][j] = 1, dp[i][j] = false.
+  Apoi, dp[i][j] = true daca dp[i + 1][j] sau dp[i][j + 1] sunt adevarate(adica daca ele pot ajunge, noi ne putem muta in ele si sa ajungem si noi).
+
+  Acum ca sa generam traseul, pornim cu x=y=1
+  daca dp[x][y + 1] = true, atunci o sa mergem in (x, y + 1) (pentru ca e mai mic lexicografic decat alternativa)
+  daca dp[x + 1][y] = true, atunci mergem in (x + 1, y).
+*/
+
+
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -9,9 +46,6 @@ const int NMAX = 1e5;///1e5=10^5
                      /// 1e1,1e2,...,1e7 e perfect, mai merge 1e9, 1e8 nu sunt sigur, 1e18 merge, dar oricum pe acolo e cam imprecis
                      /// 1e17 = 999999999..
 const int VMAX = 1e3;
-int fr[VMAX + 5];
-
-
 int c;
 int n;
 int v[2 * NMAX + 5]; /// o sa il dublam
@@ -48,7 +82,6 @@ int main(){
   f >> n;
   for(int i = 1; i <= n; i++) {
     f >> v[i];
-    fr[v[i]]++;
   }
 
   for(int i = n + 1;i <= n * 2;i++){ ///dublam sirul
@@ -70,45 +103,19 @@ int main(){
     g << ans;
   }else{
     sort(v + 1, v + 1 + n); /// o sa luam in considerare doar primele n
-    reverse(v + 1, v + 1 + n);
 
+    a[1] = v[1];
     int l = n;
-    int r = fr[v[1]] + 1;
-    int l_value = VMAX + 5; ///urmatoarea valoare dupa prefixul egal in stanga
-    int r_value = VMAX + 5; ///urmatoarea valoare dupa prefixul egal in dreapta
+    int r = 2;
 
-    for(int i = 1; i <= fr[v[1]];i++){ /// initializam sirul cu frecventa maximului
-      a[i] = v[1];
-    }
-    
-    for(int val = v[1] - 1;val >= 0;val--){
-    /*
-      cout << val << " " << l << " " << r << " " << l_value << " " << r_value << "\n";
-      for(int i = 1;i <= n;i++){
-        cout << a[i] << " ";
-      }
-      cout << "\n";
-      */
-      int initial_l_value = a[l % n + 1];
-      int initial_r_value = a[r - 1]; ///valorile capetelor
-      for(int i = 1;i <= fr[val] / 2;i++){
-        a[l--] = val;
-        a[r++] = val;
-      }
-      if(fr[val] % 2 == 1){
-        
-        if(a[l % n + 1] > a[r - 1] || (a[l % n + 1] == a[r - 1] && l_value > r_value)){///daca spre stanga e mai mic
-          a[l--] = val;
-          l_value = val;
-          r_value = initial_r_value;
-        }else{
-          a[r++] = val;
-          l_value = initial_l_value;
-          r_value = val;
-        }
+    for(int i = 2;i <= n;i++){
+      if(a[l % n + 1] < a[r - 1]){
+        a[l--] = v[i];
+      }else{
+        a[r++] = v[i];
       }
     }
-    
+
     int valoare_minima = 1005;
     l = r = 0;
 
